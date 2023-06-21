@@ -3,17 +3,20 @@ const express = require("express");
 const app=express();
 const mongoose= require("mongoose");
 require("./DB/conn");
-const student = require("./models/studentSchema");
+require("./models/studentSchema");
 const cors= require("cors");
 const router=require("./routes/router");
+const jwt = require("jsonwebtoken");
 
 
 
 
-const port=8003;
 app.use(cors());
+const port=8003;
 app.use(express.json());
 app.use(router);
+
+
 
 
 app.listen(port,()=>{

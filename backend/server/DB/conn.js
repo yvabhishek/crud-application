@@ -1,13 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose=require("mongoose");
 
-const DB = "mongodb+srv://raoabhishek3105:t8qrqo034ESKupCy@cluster0.jmwpfwk.mongodb.net/MERNStack?retryWrites=true&w=majority";
+const DB = "mongodb+srv://raoabhishek3105:KJKSXY@cluster0.agojwy2.mongodb.net/school?retryWrites=true&w=majority";
 
-mongoose.connect(DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}
-).then(() => {
-  console.log("Connection started");
-}).catch((error) => {
-  console.log(error.message);
+mongoose.connect(DB,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(()=>{
+    console.log(" Connection Success");
+}).catch((error)=>{
+    console.log(error.message);
 });

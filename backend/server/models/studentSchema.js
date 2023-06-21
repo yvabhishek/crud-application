@@ -3,29 +3,39 @@ const mongoose = require("mongoose");
 const studentSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: false
+    },
+    username: {
+        type: String,
+        required: false
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique:true
+    },
+    password: {
+        type: String,
+        require: false
     },
     address: {
         type: String,
-        required: true
+        required: false
     },
     city: {
         type: String,
-        required: true
+        required:false
     },
-    class: {
+    Class: {
         type: String,
-        required: true
+        required: false
     },
     section: {
         type: String,
-        required: true
-    }
+        required: false
+    },
+    
+
 });
 
 const students = new mongoose.model("students", studentSchema);

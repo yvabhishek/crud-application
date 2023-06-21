@@ -1,14 +1,22 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { createContext, useContext, useState } from "react";
+import { NavLink,useNavigate } from "react-router-dom";
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Register = () => {
+
+ 
+
+  const navigate = useNavigate("");
+  
 
   const [inpval, setINP] = useState(
     {
       name: '',
       email: '',
       address: '',
-      city: '',
+      City: '',
       class: '',
       section: ''
 
@@ -25,6 +33,42 @@ const Register = () => {
       }
     })
   }
+
+  const addinpdata= async(e)=>{
+    e.preventDefault();
+    
+    const { name,email,address,city,Class,section }=inpval;
+    const token = localStorage.getItem('jwtToken');
+    const res = await fetch("http://localhost:8003/crudapp/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        address,
+        city,
+        Class,
+        section,
+      }),
+    });
+  
+  const data= await res.json();
+  console.log(res);
+   
+  if(res.status===422 || !data){
+    alert("error");
+    console.log("error");
+  }else{
+    console.log("data added");
+    toast("added!", { type: "success", position: "top-center", theme: "dark" });
+    navigate("/crudapp");
+  }
+
+  }
+
   return (
     <div className="container">
       <NavLink to="/">Home</NavLink>
@@ -77,67 +121,61 @@ const Register = () => {
             <label for="exampleInputPassword1" className="form-label">
               City
             </label>
-            <input
+            <select
               name="city"
               value={inpval.city}
               onChange={setdata}
-              type="text"
               id="city"
               className="form-control"
-              list="cityList"
-            />
-            <datalist id="cityList">
-              <option value="Gurgaon"></option>
-              <option value="Noida"></option>
-              <option value="New Delhi"></option>
-              <option value="Pune"></option>
-              <option value="Chandigarh"></option>
-              <option value="Mumbai"></option>
-            </datalist>
+            >
+              <option value="">--Please choose a city--</option>
+              <option value="Gurgaon">Gurgaon</option>
+              <option value="Noida">Noida</option>
+              <option value="New Delhi">New Delhi</option>
+              <option value="Pune">Pune</option>
+              <option value="Chandigarh">Chandigarh</option>
+              <option value="Mumbai">Mumbai</option>
+            </select>
           </div>
           <div className="mb-2   col-lg-g col-md-6 col-12 ">
             <label for="exampleInputPassword1" className="form-label">
               Class
             </label>
-            <input
-              name="class"
-              value={inpval.class}
+            <select
+              name="Class"
+              value={inpval.Class}
               onChange={setdata}
-              type="text"
-              id="class"
+              id="Class"
               className="form-control"
-              list="classList"
-            />
-            <datalist id="classList">
-              <option value="VII"></option>
-              <option value="VIII"></option>
-              <option value="IX"></option>
-              <option value="X"></option>
-              <option value="XI"></option>
-              <option value="XII"></option>
-            </datalist>
+            >
+              <option value="">--Please choose a class--</option>
+              <option value="VII">VII</option>
+              <option value="VIII">VIII</option>
+              <option value="IX">IX</option>
+              <option value="X">X</option>
+              <option value="XI">XI</option>
+              <option value="XII">XII</option>
+            </select>
           </div>
           <div className="mb-2   col-lg-g col-md-6 col-12 ">
             <label for="exampleInputPassword1" className="form-label">
               Section
             </label>
-            <input
+            <select
               name="section"
               value={inpval.section}
               onChange={setdata}
-              type="text"
               id="section"
               className="form-control"
-              list="sectionList"
-            />
-            <datalist id="sectionList">
-              <option value="A"></option>
-              <option value="B"></option>
-              <option value="C"></option>
-              <option value="D"></option>
-            </datalist>
+            >
+              <option value="">--Please choose a section--</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" onClick={addinpdata} className="btn btn-primary">
             Submit
           </button>
         </div>
